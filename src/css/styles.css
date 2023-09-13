@@ -1,0 +1,13 @@
+* { 
+    box-sizing: border-box;
+}
+
+:root {
+    --toastify-font-family: 'Raleway';
+    padding: 25px;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background: #8c11be;
+}
