@@ -1,11 +1,4 @@
-import {
-    Logo,
-    Form,
-    Input,
-    Button,
-    StyledLink,
-    ErrorMessage,
-} from '../components/FormComponents';
+import { Logo, Form, Input, Button, StyledLink, ErrorMessage } from '../components/FormComponents';
 import { authSignUpSchema } from '../schemas/authSchemas';
 import styled from 'styled-components';
 import { useApi } from '../services/api';
@@ -44,15 +37,7 @@ export default function SignUp() {
         }
     }
 
-    const {
-        values,
-        errors,
-        touched,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-    } = useFormik({
+    const { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: {
             name: '',
             email: '',
@@ -77,11 +62,10 @@ export default function SignUp() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={errors.name && touched.name ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.name && touched.name && (
-                        <ErrorMessage>
-                            {errors.name.includes('required') ? '' : errors.name}
-                        </ErrorMessage>
+                        <ErrorMessage>{errors.name.includes('required') ? '' : errors.name}</ErrorMessage>
                     )}
                     <Input
                         placeholder='E-mail'
@@ -92,11 +76,10 @@ export default function SignUp() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={errors.email && touched.email ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.email && touched.email && (
-                        <ErrorMessage>
-                            {errors.email.includes('required') ? '' : errors.email}
-                        </ErrorMessage>
+                        <ErrorMessage>{errors.email.includes('required') ? '' : errors.email}</ErrorMessage>
                     )}
                     <Input
                         placeholder='Senha'
@@ -106,9 +89,8 @@ export default function SignUp() {
                         value={values.password}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                            errors.password && touched.password ? 'input-error' : ''
-                        }
+                        className={errors.password && touched.password ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.password && touched.password && (
                         <ErrorMessage>
@@ -123,17 +105,12 @@ export default function SignUp() {
                         value={values.confirmPassword}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                            errors.confirmPassword && touched.confirmPassword
-                                ? 'input-error'
-                                : ''
-                        }
+                        className={errors.confirmPassword && touched.confirmPassword ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.confirmPassword && touched.confirmPassword && (
                         <ErrorMessage>
-                            {errors.confirmPassword.includes('required')
-                                ? ''
-                                : errors.confirmPassword}
+                            {errors.confirmPassword.includes('required') ? '' : errors.confirmPassword}
                         </ErrorMessage>
                     )}
                     <Button type='submit' isSubmitting={isSubmitting}>

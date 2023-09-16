@@ -80,6 +80,7 @@ export default function TransactionPage() {
                         name='amount'
                         autoComplete='off'
                         className={errors.amount && touched.amount ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.amount && touched.amount && !errors.amount.includes('required') && (
                         <ErrorMessage>{errors.amount}</ErrorMessage>
@@ -93,6 +94,7 @@ export default function TransactionPage() {
                         onBlur={handleBlur}
                         className={errors.description && touched.description ? 'input-error' : ''}
                         autoComplete='off'
+                        disabled={isSubmitting}
                     />
                     {errors.description &&
                         touched.description &&

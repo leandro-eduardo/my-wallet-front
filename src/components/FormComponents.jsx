@@ -22,6 +22,7 @@ export function Input({
     className,
     id,
     autocomplete,
+    disabled,
 }) {
     const [passwordShown, setPasswordShown] = useState(false);
 
@@ -37,6 +38,7 @@ export function Input({
                 className={className}
                 id={id}
                 autoComplete={autocomplete}
+                disabled={disabled}
             />
             {type === 'password' && (
                 <PasswordIcon hasError={className === 'input-error'}>
@@ -91,7 +93,6 @@ const StyledInput = styled.input`
     box-sizing: border-box;
     height: 58px;
     width: 100%;
-    /* max-width: 326px; */
     background: #ffffff;
     border: 2px solid #ffffff;
     border-radius: 5px;
@@ -106,6 +107,14 @@ const StyledInput = styled.input`
 
     &::placeholder {
         color: #000000;
+    }
+
+    &:disabled {
+        opacity: 0.9;
+    }
+
+    :-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px white inset;
     }
 `;
 
@@ -130,11 +139,7 @@ export function Button({
             color={color}
             backgroundColor={backgroundColor}
             fontSize={fontSize}>
-            {isSubmitting ? (
-                <ThreeDots color='#ffffff' height={23} width={60} />
-            ) : (
-                children
-            )}
+            {isSubmitting ? <ThreeDots color='#ffffff' height={23} width={60} /> : children}
         </StyledButton>
     );
 }
@@ -152,12 +157,11 @@ const StyledButton = styled.button`
     width: ${(props) => (props.width ? `${props.width}px` : '')};
     height: ${(props) => (props.height ? `${props.height}px` : '')};
     color: ${(props) => (props.color ? props.color : '#ffffff')};
-    background-color: ${(props) =>
-        props.backgroundColor ? props.backgroundColor : '#a328d6'};
+    background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : '#a328d6')};
     font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : '21px')};
 
     &:disabled {
-        opacity: 0.6;
+        opacity: 0.7;
     }
 `;
 

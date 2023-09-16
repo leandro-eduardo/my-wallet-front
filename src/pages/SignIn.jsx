@@ -1,11 +1,4 @@
-import {
-    Logo,
-    Form,
-    Input,
-    Button,
-    StyledLink,
-    ErrorMessage,
-} from '../components/FormComponents';
+import { Logo, Form, Input, Button, StyledLink, ErrorMessage } from '../components/FormComponents';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import { authSignInSchema } from '../schemas/authSchemas';
@@ -43,15 +36,7 @@ export default function SignInPage() {
         }
     }
 
-    const {
-        values,
-        errors,
-        touched,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-    } = useFormik({
+    const { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: {
             email: '',
             password: '',
@@ -75,11 +60,10 @@ export default function SignInPage() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={errors.email && touched.email ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.email && touched.email && (
-                        <ErrorMessage>
-                            {errors.email.includes('required') ? '' : errors.email}
-                        </ErrorMessage>
+                        <ErrorMessage>{errors.email.includes('required') ? '' : errors.email}</ErrorMessage>
                     )}
                     <Input
                         placeholder='Senha'
@@ -89,9 +73,8 @@ export default function SignInPage() {
                         value={values.password}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                            errors.password && touched.password ? 'input-error' : ''
-                        }
+                        className={errors.password && touched.password ? 'input-error' : ''}
+                        disabled={isSubmitting}
                     />
                     {errors.password && touched.password && (
                         <ErrorMessage>
