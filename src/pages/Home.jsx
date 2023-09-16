@@ -75,42 +75,45 @@ export default function HomePage() {
                     />
                 </Header>
                 <TransactionsContainer>
-                    {transactions.length === 0 ? (
-                        <NoTransactionsMessage>
-                            Não há registros de entrada ou saída
-                        </NoTransactionsMessage>
-                    ) : (
-                        transactions.map((transaction, index) => (
-                            <TransactionItem key={index}>
-                                <div>
-                                    <Date>{transaction.date}</Date>
-                                    <Description title={transaction.description}>
-                                        {transaction.description}
-                                    </Description>
-                                </div>
-                                <div>
-                                    <Amount
-                                        type={transaction.type}
-                                        value={transaction.amount / 100}
-                                        thousandSeparator={'.'}
-                                        decimalSeparator={','}
-                                        decimalScale={2}
-                                        fixedDecimalScale={true}
-                                        displayType={'text'}
-                                    />
-                                    <DeleteIcon
-                                        onClick={() =>
-                                            setShowDeleteModal({
-                                                canShow: true,
-                                                transactionId: transaction._id,
-                                            })
-                                        }>
-                                        <IoCloseOutline />
-                                    </DeleteIcon>
-                                </div>
-                            </TransactionItem>
-                        ))
-                    )}
+                    <Transactions>
+                        {transactions.length === 0 ? (
+                            <NoTransactionsMessage>
+                                Não há registros de entrada ou saída
+                            </NoTransactionsMessage>
+                        ) : (
+                            transactions.map((transaction, index) => (
+                                <TransactionItem key={index}>
+                                    <div>
+                                        <Date>{transaction.date}</Date>
+                                        <Description title={transaction.description}>
+                                            {transaction.description}
+                                        </Description>
+                                    </div>
+                                    <div>
+                                        <Amount
+                                            type={transaction.type}
+                                            value={transaction.amount / 100}
+                                            thousandSeparator={'.'}
+                                            decimalSeparator={','}
+                                            decimalScale={2}
+                                            fixedDecimalScale={true}
+                                            displayType={'text'}
+                                        />
+                                        <DeleteIcon
+                                            onClick={() =>
+                                                setShowDeleteModal({
+                                                    canShow: true,
+                                                    transactionId: transaction._id,
+                                                })
+                                            }>
+                                            <IoCloseOutline />
+                                        </DeleteIcon>
+                                    </div>
+                                </TransactionItem>
+                            ))
+                        )}
+                    </Transactions>
+
                     {transactions.length !== 0 && (
                         <BalanceContainer>
                             SALDO
@@ -141,9 +144,7 @@ export default function HomePage() {
                                         height={25}
                                         width={85}
                                         fontSize={16}
-                                        onClick={() =>
-                                            handleDelete(showDeleteModal.transactionId)
-                                        }>
+                                        onClick={() => handleDelete(showDeleteModal.transactionId)}>
                                         Apagar
                                     </Button>
                                     <Button
@@ -166,16 +167,12 @@ export default function HomePage() {
                 </TransactionsContainer>
                 <ButtonsContainer>
                     <TransactionButton
-                        onClick={() =>
-                            navigate('/transaction', { state: { type: 'income' } })
-                        }>
+                        onClick={() => navigate('/transaction', { state: { type: 'income' } })}>
                         <AiOutlinePlusCircle style={{ fontSize: '25px' }} />
                         <p>Nova entrada</p>
                     </TransactionButton>
                     <TransactionButton
-                        onClick={() =>
-                            navigate('/transaction', { state: { type: 'expense' } })
-                        }>
+                        onClick={() => navigate('/transaction', { state: { type: 'expense' } })}>
                         <AiOutlineMinusCircle style={{ fontSize: '25px' }} />
                         <p>Nova saída</p>
                     </TransactionButton>
@@ -198,6 +195,13 @@ const Wrapper = styled.div`
 `;
 
 const TransactionsContainer = styled.div`
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+`;
+
+const Transactions = styled.div`
     width: 100%;
     height: 446px;
     background: #ffffff;
@@ -208,6 +212,15 @@ const TransactionsContainer = styled.div`
     padding: 15px;
     gap: 15px;
     position: relative;
+    overflow: scroll;
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 const Header = styled.div`
@@ -314,8 +327,7 @@ const BalanceContainer = styled.div`
 const Balance = styled(NumberFormat)`
     font-weight: 400;
     font-size: 17px;
-    color: ${(props) =>
-        props.balance > 0 ? '#03ac00' : props.balance < 0 ? '#c70000' : '#000000'};
+    color: ${(props) => (props.balance > 0 ? '#03ac00' : props.balance < 0 ? '#c70000' : '#000000')};
 `;
 
 const DeleteModalBackDrop = styled.div`
