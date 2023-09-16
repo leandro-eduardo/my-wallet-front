@@ -1,10 +1,9 @@
-* { 
+* {
     box-sizing: border-box;
 }
 
 :root {
     --toastify-font-family: 'Raleway';
-    padding: 25px;
 }
 
 body {

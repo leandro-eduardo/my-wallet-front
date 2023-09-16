@@ -96,6 +96,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 0 25px;
 `;
 
 const Wrapper = styled.div`

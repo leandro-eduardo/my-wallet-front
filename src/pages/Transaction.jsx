@@ -113,6 +113,7 @@ export default function TransactionPage() {
 const Container = styled.div`
     display: flex;
     justify-content: center;
+    padding: 25px;
 `;
 
 const Wrapper = styled.div`

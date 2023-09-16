@@ -33,7 +33,6 @@ export default function SignUp() {
                 closeOnClick: true,
                 pauseOnHover: true,
             });
-            // alert(error.response.data.message);
         }
     }
 
@@ -129,6 +128,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 0 25px;
 `;
 
 const Wrapper = styled.div`
