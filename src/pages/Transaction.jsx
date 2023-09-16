@@ -11,7 +11,7 @@ import NumberFormat from 'react-number-format';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ExpensePage() {
+export default function TransactionPage() {
     const navigate = useNavigate();
     const api = useApi();
     const location = useLocation();
@@ -45,15 +45,7 @@ export default function ExpensePage() {
         }
     }
 
-    const {
-        values,
-        errors,
-        touched,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-    } = useFormik({
+    const { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: {
             description: '',
             amount: '',
@@ -89,11 +81,9 @@ export default function ExpensePage() {
                         autoComplete='off'
                         className={errors.amount && touched.amount ? 'input-error' : ''}
                     />
-                    {errors.amount &&
-                        touched.amount &&
-                        !errors.amount.includes('required') && (
-                            <ErrorMessage>{errors.amount}</ErrorMessage>
-                        )}
+                    {errors.amount && touched.amount && !errors.amount.includes('required') && (
+                        <ErrorMessage>{errors.amount}</ErrorMessage>
+                    )}
                     <Input
                         placeholder='Descrição'
                         type='text'
@@ -101,9 +91,7 @@ export default function ExpensePage() {
                         value={values.description}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                            errors.description && touched.description ? 'input-error' : ''
-                        }
+                        className={errors.description && touched.description ? 'input-error' : ''}
                         autoComplete='off'
                     />
                     {errors.description &&
