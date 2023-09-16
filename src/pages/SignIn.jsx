@@ -32,7 +32,6 @@ export default function SignInPage() {
                 closeOnClick: true,
                 pauseOnHover: true,
             });
-            // alert(error.response.data.message);
         }
     }
 

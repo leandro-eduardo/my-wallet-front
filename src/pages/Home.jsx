@@ -10,10 +10,12 @@ import { useAuth } from '../hooks/useAuth';
 import { clearUserLocalStorage } from '../contexts/utils';
 import NumberFormat from 'react-number-format';
 import { Button } from '../components/FormComponents';
+import { RotatingLines } from 'react-loader-spinner';
 
 export default function HomePage() {
     const [transactions, setTransactions] = useState([]);
     const [balance, setBalance] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState({
         canShow: false,
         transactionId: null,
@@ -31,6 +33,7 @@ export default function HomePage() {
 
     async function fetchData() {
         try {
+            setIsLoading(true);
             const { data } = await api.getTransactions(config);
             setTransactions(data.reverse());
             let balance = 0;
@@ -42,6 +45,7 @@ export default function HomePage() {
                 }
             });
             setBalance(balance);
+            setIsLoading(false);
         } catch (error) {
             setUser(null);
             clearUserLocalStorage();
@@ -57,6 +61,7 @@ export default function HomePage() {
 
     async function handleDelete(id) {
         try {
+            setIsLoading(true);
             await api.deleteTransaction(id, config);
             fetchData();
         } catch (error) {
@@ -75,46 +80,58 @@ export default function HomePage() {
                     />
                 </Header>
                 <TransactionsContainer>
-                    <Transactions>
-                        {transactions.length === 0 ? (
-                            <NoTransactionsMessage>
-                                Não há registros de entrada ou saída
-                            </NoTransactionsMessage>
+                    <Transactions isLoading={isLoading}>
+                        {isLoading ? (
+                            <RotatingLines
+                                strokeColor='#a328d6'
+                                strokeWidth='5'
+                                animationDuration='0.75'
+                                width='48'
+                                visible={true}
+                            />
                         ) : (
-                            transactions.map((transaction, index) => (
-                                <TransactionItem key={index}>
-                                    <div>
-                                        <Date>{transaction.date}</Date>
-                                        <Description title={transaction.description}>
-                                            {transaction.description}
-                                        </Description>
-                                    </div>
-                                    <div>
-                                        <Amount
-                                            type={transaction.type}
-                                            value={transaction.amount / 100}
-                                            thousandSeparator={'.'}
-                                            decimalSeparator={','}
-                                            decimalScale={2}
-                                            fixedDecimalScale={true}
-                                            displayType={'text'}
-                                        />
-                                        <DeleteIcon
-                                            onClick={() =>
-                                                setShowDeleteModal({
-                                                    canShow: true,
-                                                    transactionId: transaction._id,
-                                                })
-                                            }>
-                                            <IoCloseOutline />
-                                        </DeleteIcon>
-                                    </div>
-                                </TransactionItem>
-                            ))
+                            <>
+                                {transactions.length === 0 ? (
+                                    <NoTransactionsMessage>
+                                        Não há registros de entrada ou saída
+                                    </NoTransactionsMessage>
+                                ) : (
+                                    transactions.map((transaction, index) => (
+                                        <TransactionItem key={index}>
+                                            <div>
+                                                <Date>{transaction.date}</Date>
+                                                <Description title={transaction.description}>
+                                                    {transaction.description}
+                                                </Description>
+                                            </div>
+                                            <div>
+                                                <Amount
+                                                    type={transaction.type}
+                                                    value={transaction.amount / 100}
+                                                    thousandSeparator={'.'}
+                                                    decimalSeparator={','}
+                                                    decimalScale={2}
+                                                    fixedDecimalScale={true}
+                                                    displayType={'text'}
+                                                />
+                                                <DeleteIcon
+                                                    onClick={() =>
+                                                        setShowDeleteModal({
+                                                            canShow: true,
+                                                            transactionId: transaction._id,
+                                                        })
+                                                    }>
+                                                    <IoCloseOutline />
+                                                </DeleteIcon>
+                                            </div>
+                                        </TransactionItem>
+                                    ))
+                                )}
+                            </>
                         )}
                     </Transactions>
 
-                    {transactions.length !== 0 && (
+                    {transactions.length !== 0 && !isLoading && (
                         <BalanceContainer>
                             SALDO
                             <Balance
@@ -206,6 +223,7 @@ const Transactions = styled.div`
     height: 446px;
     background: #ffffff;
     border-radius: 5px;
+    justify-content: ${({ isLoading }) => (isLoading ? 'center' : 'initial')};
     display: flex;
     flex-direction: column;
     align-items: center;
